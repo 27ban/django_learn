@@ -25,7 +25,7 @@ SECRET_KEY = '8!2fz1so@s=7w-hhqprmgdk6vmh4+0hzwf&s6!(0m6=2!ngf!l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'demo',
-    'debug_toolbar'
+    'debug_toolbar',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -103,7 +104,7 @@ DATABASES = {
     }
 }
 
-DATABASES_ROUTERS = ['common.db_router.DbRouter']
+DATABASE_ROUTERS = ['common.db_router.DbRouter']
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -141,3 +142,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+BROKER_URL = 'redis://xiao:123456@127.0.0.1:6379/1'
+CELERY_RESULT_BACKEND = 'redis://xiao:123456@127.0.0.1:6379/2'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_TIMEZONE = 'Asia/Shanghai'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
