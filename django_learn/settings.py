@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'demo',
     'debug_toolbar',
     'django_celery_results',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -97,14 +98,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-    'read': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
-DATABASE_ROUTERS = ['common.db_router.DbRouter']
+# DATABASE_ROUTERS = ['common.db_router.DbRouter']
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -127,15 +124,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -144,8 +141,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 BROKER_URL = 'redis://xiao:123456@127.0.0.1:6379/1'
-CELERY_RESULT_BACKEND = 'redis://xiao:123456@127.0.0.1:6379/2'
+# CELERY_RESULT_BACKEND = 'redis://xiao:123456@127.0.0.1:6379/2'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_TIMEZONE = 'Asia/Shanghai'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+DJANGO_CELERY_BEAT_TZ_AWARE = False  # 防止beat无限发任务
+CELERYBEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
